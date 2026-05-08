@@ -28,8 +28,11 @@ RUN composer install --no-dev --optimize-autoloader
 
 RUN npm install && npm run build
 
-RUN chown -R www-data:www-data storage bootstrap/cache \
-    && chmod -R 775 storage bootstrap/cache
+RUN php artisan filament:assets || true
+RUN php artisan storage:link || true
+
+RUN chown -R www-data:www-data storage bootstrap/cache public \
+    && chmod -R 775 storage bootstrap/cache public
 
 RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
 
