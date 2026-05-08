@@ -12,10 +12,11 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     libonig-dev \
     libxml2-dev \
-    curl \
-    nodejs \
-    npm \
-    && docker-php-ext-install pdo_mysql mbstring zip exif pcntl bcmath gd
+libicu-dev \
+curl \
+nodejs \
+npm \
+&& docker-php-ext-install pdo_mysql mbstring zip exif pcntl bcmath gd intl
 
 RUN a2enmod rewrite
 
