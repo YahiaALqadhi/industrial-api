@@ -12,11 +12,11 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     libonig-dev \
     libxml2-dev \
-libicu-dev \
-curl \
-nodejs \
-npm \
-&& docker-php-ext-install pdo_mysql mbstring zip exif pcntl bcmath gd intl
+    libicu-dev \
+    curl \
+    nodejs \
+    npm \
+    && docker-php-ext-install pdo_mysql mbstring zip exif pcntl bcmath gd intl
 
 RUN a2enmod rewrite
 
@@ -35,4 +35,4 @@ RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /e
 
 EXPOSE 10000
 
-CMD sed -i "s/80/${PORT:-10000}/g" /etc/apache2/ports.conf /etc/apache2/sites-available/000-default.conf && apache2-foreground
+CMD php artisan migrate --force && sed -i "s/80/${PORT:-10000}/g" /etc/apache2/ports.conf /etc/apache2/sites-available/000-default.conf && apache2-foreground
